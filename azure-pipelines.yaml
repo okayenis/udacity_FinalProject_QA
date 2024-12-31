@@ -65,11 +65,6 @@ stages:
     # Generate an SSH key pair in your local/AZ Cloud shell. Use the public key in the Terraform VM module. 
     # Install public key and private key file to the pipeline agent, using the task below. 
     # ToDo: Change the inputs value below
-    - task: InstallSSHKey@0
-      inputs:
-        knownHostsEntry: 'AAAAB3NzaC1yc2EAAAADAQABAAABgQCj7ndNxQowgcQnjshcLrqPEiiphnt+VTTvDP6mHBL9j1aNUkY4Ue1gvwnGLVlOhGeYrnZaMgRK6+PKCUXaDbC7qtbW8gIkhL7aGCsOr/C56SJMy/BCZfxd1nWzAOxSDPgVsmerOBYfNqltV9/hWCqBywINIR+5dIg6JTJ72pcEpEjcYgXkE2YEFXV1JHnsKgbLWNlhScqb2UmyRkQyytRLtL+38TGxkxCflmO+5Z8CSSNY7GidjMIZ7Q4zMjA2n1nGrlTDkzwDCsw+wqFPGQA179cnfGWOWRVruj16z6XyvxvjJwbz0wQZ75XK5tKSb7FNyeIEs4TT4jk+S4dhPeAUC5y+bDYirYgM4GC7uEnztnZyaVWQ7B381AK4Qdrwt51ZqExKbQpTUNn+EjqoTwvqNj4kqx5QUCI0ThS/YkOxJCXmPUWZbhjpCg56i+2aB6CmK2JGhn57K5mj0MNdBXA4/WnwH6XoPWJzK5Nyu2zB3nAZp+S5hpQs+p1vN1/wsjk=' # variable value
-        sshPublicKey: 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC/VRnd4fsB+qSg4RCzJPvzijkf8xF+vQN8k7mDwO9QNkF9TwJiOH9UObMLJY7Yj2mAcaUL/Pyp7YKo25H13HnTJjxU+hust5KWFw5wEDVWelYuKtd84eI6drOI+BM65icTezUtj84GDhVpqCLYi9esej2HSDdNSWkyCpSD3Nn/CRe7yar2xqWkfX0C56ZFm8QvXuCYSUmUs1JKvTZQ8wrMRbv0Jyu/O9lRo56vg1gCZVkCMqgSpN2gRJCmCLa6OuIa8Qx9G2b4C1WamieCXaTFxuIXE2RaBc/wLBQB1vICx2FYZfa5o2h/8UtpM/Ef9JCxjtdRlY/GGMUKWex0580hbelPnucAZRIFZ/i9iJ7F4eKfZJuhYYGFknY4FV6hIYpr7SsTAJuqjx6b+sTN9cfzzK9bfXv651oVTzJaEcaBwliSXzJ32xfaXlDkDA7PdmEK+XwHxkVlen1xEsBeho4efC1ago8HEwkr8VHXj3JUEycy8JQiDkhSKdl5lzwyxB8= Enis.Okay@XTQC34H1QN'            # variable value
-        sshKeySecureFile: 'id_rsa.pub' # Use secure file feature in the pipeline library UI to save the "id_rsa" file, as mentioned here: https://learn.microsoft.com/en-us/azure/devops/pipelines/library/secure-files?view=azure-devops#add-a-secure-file
     
     # Run Terraform Apply
     - task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV3@3
@@ -95,9 +90,6 @@ stages:
     # Postman - Install Newman    
     # ToDo: Update the command and verify the working directory
     
-    - task: Npm@1
-      inputs:
-        command: 'install'
     - task: CmdLine@2
       displayName: Install Newman
       inputs:
