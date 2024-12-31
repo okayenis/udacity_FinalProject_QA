@@ -18,6 +18,7 @@ resource "azurerm_linux_virtual_machine" "testVM" {
   size                  = "Standard_DS2_v2"
   admin_username        = "adminuser"
   network_interface_ids = [azurerm_network_interface.testInterface.id]
+  disable_password_authentication = false
   admin_password = "UdacityAzure2024"
   os_disk {
     caching              = "ReadWrite"
