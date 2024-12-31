@@ -18,10 +18,7 @@ resource "azurerm_linux_virtual_machine" "testVM" {
   size                  = "Standard_DS2_v2"
   admin_username        = "adminuser"
   network_interface_ids = [azurerm_network_interface.testInterface.id]
-  admin_ssh_key {
-    username   = "adminuser"
-    public_key = file("~/.ssh/id_rsa.pub")
-  }
+  admin_password = "UdacityAzure2024"
   os_disk {
     caching              = "ReadWrite"
     storage_account_type = "Standard_LRS"
