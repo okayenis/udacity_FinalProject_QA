@@ -30,7 +30,5 @@ resource "azurerm_linux_virtual_machine" "testVM" {
     storage_account_type = "Standard_LRS"
   }
 
-  storage_image_reference {
-    id = data.azurerm_image.packerimage.id
-  }
+  source_image_id = data.azurerm_image.packerimage.id
 }
