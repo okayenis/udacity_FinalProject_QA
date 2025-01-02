@@ -17,7 +17,7 @@ variables:
   # Project root folder. Point to the folder containing manage.py file.
   projectRoot: $(System.DefaultWorkingDirectory)
   # Environment name
-  environmentName: 'test'
+  environmentName: 'test-vm'
 
 stages:
 #--------------------------------------------#  
@@ -171,7 +171,7 @@ stages:
   - deployment: FakeRestAPI
     pool:
       vmImage: 'Ubuntu-20.04'      
-    environment: 'test'   # ToDo
+    environment: 'test-vm'   # ToDo
     strategy:
       runOnce:
         deploy:
@@ -200,7 +200,7 @@ stages:
   - deployment: VMDeploy
     displayName: Selenium Tests
     environment:
-      name: 'test-linux'        # ToDo: Change/provide a name
+      name: 'test-vm'        # ToDo: Change/provide a name
       resourceType: VirtualMachine
       tags: selenium
     strategy:
