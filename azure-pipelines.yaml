@@ -166,30 +166,30 @@ stages:
       #--------------------------------------------#
       # Deploy FakeRestAPI Web App
       # ToDo: Provide <environment name> you created in your DevOps project
-      # - deployment: FakeRestAPI
-      #   environment: 'testvm' # ToDo
-      #   strategy:
-      #     runOnce:
-      #       deploy:
-      #         steps:
-      #           - task: AzureWebApp@1
-      #             displayName: "Deploy Azure Web App"
-      #             inputs:
-      #               azureSubscription: "b36b9c97-fc96-4685-a338-a12e5c653326" # ToDo
-      #               appName: "myApplication-AppService" # ToDo
-      #               appType: webApp
-      #               package: $(Pipeline.Workspace)/drop-fakerestapi/$(Build.BuildId)-fakerestapi.zip # ToDo: Use the published zip artifact.
-      #           #--------------------------------------------#
-      #           # Run JMeter test suite against the App Service
-      #           - task: CmdLine@2
-      #             inputs:
-      #               script: |
-      #                 wget "https://apache.mirrors.lucidnetworks.net//jmeter/binaries/apache-jmeter-5.2.1.tgz"
-      #                 tar -xf apache-jmeter-5.2.1.tgz
-      #                 unzip -o $(Build.BuildId)-perftests.zip
-      #                 ./apache-jmeter-5.2.1/bin/jmeter -n -t PerformanceTestSuite.jmx -j jmeter.log -f
-      #                 cat jmeter.log                                                                           # ToDo: Write your commands
-      #               workingDirectory: $(Pipeline.Workspace)/drop-fakerestapi/$(Build.BuildId)-perftests.zip # ToDo: Use the artifact name from the task above
+      - deployment: FakeRestAPI
+        environment: "testvm" # ToDo
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - task: AzureWebApp@1
+                  displayName: "Deploy Azure Web App"
+                  inputs:
+                    azureSubscription: "b36b9c97-fc96-4685-a338-a12e5c653326" # ToDo
+                    appName: "myApplication-AppService" # ToDo
+                    appType: webApp
+                    package: $(Pipeline.Workspace)/drop-fakerestapi/$(Build.BuildId)-fakerestapi.zip # ToDo: Use the published zip artifact.
+                  #--------------------------------------------#
+                  # Run JMeter test suite against the App Service
+                - task: CmdLine@2
+                  inputs:
+                    script: |
+                      wget "https://apache.mirrors.lucidnetworks.net//jmeter/binaries/apache-jmeter-5.2.1.tgz"
+                      tar -xf apache-jmeter-5.2.1.tgz
+                      unzip -o $(Build.BuildId)-perftests.zip
+                      ./apache-jmeter-5.2.1/bin/jmeter -n -t PerformanceTestSuite.jmx -j jmeter.log -f
+                      cat jmeter.log                                                                           # ToDo: Write your commands
+                    workingDirectory: $(Pipeline.Workspace)/drop-fakerestapi/$(Build.BuildId)-perftests.zip # ToDo: Use the artifact name from the task above
 
       #--------------------------------------------#
       # Selenium | Functional UI Tests
@@ -197,7 +197,7 @@ stages:
       - deployment: VMDeploy
         displayName: Selenium Tests
         environment:
-          name: 'testvm' # ToDo: Change/provide a name
+          name: "testvm" # ToDo: Change/provide a name
           resourceType: VirtualMachine
           tags: selenium
         strategy:
@@ -223,10 +223,10 @@ stages:
                       if [ ! -d "$DIR" ]; then
                           mkdir app
                       fi
-                      mv /home/testuser/azagent/_work/1/drop-uitests/$(Build.BuildId)-uitests.zip app
+                      mv /home/azureuser/azagent/_work/1/drop-uitests/$(Build.BuildId)-uitests.zip app
                       cd app
                       unzip -o $(Build.BuildId)-uitests.zip
-                      FILE=/home/testuser/app/chromedriver_linux64.zip
+                      FILE=/home/azureuser/app/chromedriver_linux64.zip
                       if [ ! -f "$FILE" ]; then
                           LATEST=$(wget -q -O - http://chromedriver.storage.googleapis.com/LATEST_RELEASE)
                           wget http://chromedriver.storage.googleapis.com/$LATEST/chromedriver_linux64.zip
