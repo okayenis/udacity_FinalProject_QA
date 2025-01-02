@@ -12,7 +12,7 @@ resource "azurerm_network_interface" "testInterface" {
 }
 
 data "azurerm_image" "packerimage" {
-  name                = "linux-test-image"
+  name                = "test-linux-image"
   resource_group_name = var.resource_group
 }
 
