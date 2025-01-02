@@ -167,7 +167,7 @@ stages:
       # Deploy FakeRestAPI Web App
       # ToDo: Provide <environment name> you created in your DevOps project
       - deployment: FakeRestAPI
-        environment: test-vm # ToDo
+        environment: 'test-vm' # ToDo
         strategy:
           runOnce:
             deploy:
@@ -197,7 +197,7 @@ stages:
       - deployment: VMDeploy
         displayName: Selenium Tests
         environment:
-          name: # ToDo: Change/provide a name
+          name: 'test-vm' # ToDo: Change/provide a name
           resourceType: VirtualMachine
           tags: selenium
         strategy:
