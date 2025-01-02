@@ -1,0 +1,37 @@
+2025-01-02 21:56:54,524 - INFO - Executing the test suite...
+2025-01-02 21:56:58,536 - INFO - Starting to add all products to the cart.
+2025-01-02 21:56:58,587 - INFO - Added an item to the cart.
+2025-01-02 21:56:58,611 - INFO - Added an item to the cart.
+2025-01-02 21:56:58,634 - INFO - Added an item to the cart.
+2025-01-02 21:56:58,657 - INFO - Added an item to the cart.
+2025-01-02 21:56:58,679 - INFO - Added an item to the cart.
+2025-01-02 21:56:58,703 - INFO - Added an item to the cart.
+2025-01-02 21:56:58,703 - INFO - All items added to the cart.
+2025-01-02 21:56:58,704 - INFO - Starting to remove all products from the cart.
+2025-01-02 21:56:58,730 - INFO - Removed an item from the cart.
+2025-01-02 21:56:58,751 - INFO - Removed an item from the cart.
+2025-01-02 21:56:58,773 - INFO - Removed an item from the cart.
+2025-01-02 21:56:58,791 - INFO - Removed an item from the cart.
+2025-01-02 21:56:58,813 - INFO - Removed an item from the cart.
+2025-01-02 21:56:58,837 - INFO - Removed an item from the cart.
+2025-01-02 21:56:58,837 - INFO - All items removed from the cart.
+2025-01-02 21:56:59,059 - INFO - Test suite execution completed.
+2025-01-02 22:00:21,103 - INFO - Executing the test suite...
+2025-01-02 22:00:22,966 - INFO - Login successful with user 'standard_user'.
+2025-01-02 22:00:22,966 - INFO - Adding all products to the cart.
+2025-01-02 22:00:23,003 - INFO - Product 1 added to the cart.
+2025-01-02 22:00:23,055 - INFO - Product 2 added to the cart.
+2025-01-02 22:00:23,104 - INFO - Product 3 added to the cart.
+2025-01-02 22:00:23,131 - INFO - Product 4 added to the cart.
+2025-01-02 22:00:23,156 - INFO - Product 5 added to the cart.
+2025-01-02 22:00:23,181 - INFO - Product 6 added to the cart.
+2025-01-02 22:00:23,181 - INFO - All products have been added to the cart.
+2025-01-02 22:00:23,181 - INFO - Removing all products from the cart.
+2025-01-02 22:00:23,212 - INFO - Product 1 removed from the cart.
+2025-01-02 22:00:23,236 - INFO - Product 2 removed from the cart.
+2025-01-02 22:00:23,260 - INFO - Product 3 removed from the cart.
+2025-01-02 22:00:23,283 - INFO - Product 4 removed from the cart.
+2025-01-02 22:00:23,307 - INFO - Product 5 removed from the cart.
+2025-01-02 22:00:23,331 - INFO - Product 6 removed from the cart.
+2025-01-02 22:00:23,331 - INFO - All products have been removed from the cart.
+2025-01-02 22:00:23,589 - INFO - Test suite execution completed. Browser closed.
