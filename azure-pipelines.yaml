@@ -170,7 +170,7 @@ stages:
 
   - deployment: FakeRestAPI
     pool:
-      vmImage: 'Ubuntu-18.04'      
+      vmImage: 'Ubuntu-20.04'      
     environment: 'test'   # ToDo
     strategy:
       runOnce:
@@ -182,7 +182,7 @@ stages:
               azureSubscription: 'b36b9c97-fc96-4685-a338-a12e5c653326'     # ToDo
               appName: 'testApp1235533'               # ToDo
               appType: webApp
-              package: $(Pipeline.Workspace)/<artifact>/<archiveFile>       # ToDo: Use the published zip artifact. 
+              package: $(Pipeline.Workspace)/$(Build.BuildId)-perftests.zip       # ToDo: Use the published zip artifact. 
           #--------------------------------------------#    
           # Run JMeter test suite against the App Service
           - task: CmdLine@2
@@ -193,14 +193,14 @@ stages:
                 unzip -o $(Build.BuildId)-perftests.zip
                 ./apache-jmeter-5.2.1/bin/jmeter -n -t PerformanceTestSuite.jmx -j jmeter.log -f
                 cat jmeter.log                                                                           # ToDo: Write your commands
-              workingDirectory: $(Pipeline.Workspace)/<artifact>            # ToDo: Use the artifact name from the task above              
+              workingDirectory: $(Pipeline.Workspace)/$(Build.BuildId)-perftests.zip            # ToDo: Use the artifact name from the task above              
   #--------------------------------------------#  
   # Selenium | Functional UI Tests
   # ToDo: 
   - deployment: VMDeploy
     displayName: Selenium Tests
     environment:
-      name: 'TestName12'        # ToDo: Change/provide a name
+      name: 'test-linux'        # ToDo: Change/provide a name
       resourceType: VirtualMachine
       tags: selenium
     strategy:
