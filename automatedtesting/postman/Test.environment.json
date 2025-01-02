@@ -1,0 +1,27 @@
+{
+	"id": "8801b1f2-c01b-4cb0-90f1-a2feb9476030",
+	"name": "New Environment",
+	"values": [
+		{
+			"key": "firstName",
+			"value": "enis",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "lastName",
+			"value": "test",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "id",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		}
+	],
+	"_postman_variable_scope": "environment",
+	"_postman_exported_at": "2025-01-02T13:56:47.521Z",
+	"_postman_exported_using": "Postman/11.20.0"
+}
