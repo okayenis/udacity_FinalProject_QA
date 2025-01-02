@@ -11,6 +11,11 @@ resource "azurerm_network_interface" "testInterface" {
   }
 }
 
+data "azurerm_image" "packerimage" {
+  name                = "linux-test-image"
+  resource_group_name = var.resource_group
+}
+
 resource "azurerm_linux_virtual_machine" "testVM" {
   name                            = "${var.application_type}-${var.resource_type}"
   location                        = var.location
@@ -24,10 +29,8 @@ resource "azurerm_linux_virtual_machine" "testVM" {
     caching              = "ReadWrite"
     storage_account_type = "Standard_LRS"
   }
-  source_image_reference {
-    publisher = "Canonical"
-    offer     = "UbuntuServer"
-    sku       = "18.04-LTS"
-    version   = "latest"
+
+  storage_image_reference {
+    id = data.azurerm_image.packerimage.id
   }
 }
