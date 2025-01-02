@@ -80,7 +80,7 @@ stages:
     #     environmentServiceNameAzureRM: '$(azureServiceConnectionId)'
 
 
-#--------------------------------------------#    
+  #--------------------------------------------#    
     # Postman - Install Newman    
     # ToDo: Update the command and verify the working directory
 
@@ -168,9 +168,7 @@ stages:
   # Deploy FakeRestAPI Web App
   # ToDo: Provide <environment name> you created in your DevOps project
 
-  - deployment: FakeRestAPI
-    pool:
-      vmImage: 'Ubuntu-20.04'      
+  - deployment: FakeRestAPI  
     environment: 'test-vm'   # ToDo
     strategy:
       runOnce:
