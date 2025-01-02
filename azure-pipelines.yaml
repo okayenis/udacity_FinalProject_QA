@@ -219,7 +219,7 @@ stages:
                       sudo apt-get install -y chromium-browser
                       pip3 install selenium
                       cd ~/
-                      DIR=/home/testuser/app
+                      DIR=/home/azureuser/app
                       if [ ! -d "$DIR" ]; then
                           mkdir app
                       fi
