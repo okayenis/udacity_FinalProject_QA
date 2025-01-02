@@ -84,9 +84,6 @@ stages:
     # Postman - Install Newman    
     # ToDo: Update the command and verify the working directory
 
-    - task: Npm@1
-      inputs:
-        command: 'install'
     - task: CmdLine@2
       displayName: Install Newman
       inputs:
