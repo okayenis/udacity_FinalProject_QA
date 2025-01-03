@@ -1,6 +1,6 @@
 import logging
 import time
-from login import login  # login.py'den login fonksiyonunu import ettik
+from login import login  
 from selenium.webdriver.common.by import By
 
 
