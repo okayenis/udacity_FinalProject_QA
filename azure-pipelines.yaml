@@ -82,10 +82,13 @@ stages:
           #--------------------------------------------#
           # Postman - Install Newman
           # ToDo: Update the command and verify the working directory
-
-          - task: Npm@1
+          - task: CmdLine@2
+            displayName: Install Node.js and npm
             inputs:
-              command: 'install'
+              script: |
+                curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
+                apt-get install -y nodejs
+              workingDirectory: $(System.DefaultWorkingDirectory)
           - task: CmdLine@2
             displayName: Install Newman
             inputs:
