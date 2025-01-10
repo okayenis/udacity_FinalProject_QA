@@ -11,13 +11,13 @@ trigger:
 pool: myAgentPool
 
 variables:
-  python.version: "3.9"
+  python.version: "3.7.6"
   # ToDo: Replace the service connection name as used in the DevOps project settings
-  azureServiceConnectionId: "myServiceConnection"
+  azureServiceConnectionId: "myCon2"
   # Project root folder. Point to the folder containing manage.py file.
   projectRoot: $(System.DefaultWorkingDirectory)
   # Environment name
-  environmentName: "test-vm"
+  environmentName: "test"
 
 stages:
   #--------------------------------------------#
@@ -45,7 +45,7 @@ stages:
               workingDirectory: "$(System.DefaultWorkingDirectory)/terraform/environments/test"
               backendServiceArm: "$(azureServiceConnectionId)"
               backendAzureRmResourceGroupName: "Azuredevops"
-              backendAzureRmStorageAccountName: "tfstate2317832578"
+              backendAzureRmStorageAccountName: "tfstate2784529696"
               backendAzureRmContainerName: "tfstate"
               backendAzureRmKey: "test.terraform.tfstate"
 
@@ -54,11 +54,6 @@ stages:
             inputs:
               provider: "azurerm"
               command: "validate"
-
-          # OPTIONAL - This step is needed only if your Terraform VM uses an SSH key pair for login and you want your pipeline agent to connect to it.
-          # Generate an SSH key pair in your local/AZ Cloud shell. Use the public key in the Terraform VM module.
-          # Install public key and private key file to the pipeline agent, using the task below.
-          # ToDo: Change the inputs value below
 
           # Run Terraform Apply
           - task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV3@3
@@ -69,20 +64,9 @@ stages:
               workingDirectory: "$(System.DefaultWorkingDirectory)/terraform/environments/test"
               environmentServiceNameAzureRM: "$(azureServiceConnectionId)"
 
-          # ToDo: Change the workingDirectory path, as applicable to you
-          # Destroy the resources in Azure by running a separate pipeline.
-          # - task: TerraformTaskV3@3
-          #   displayName: Terraform destroy
-          #   inputs:
-          #     provider: 'azurerm'
-          #     command: 'destroy'
-          #     workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/environments/test'
-          #     environmentServiceNameAzureRM: '$(azureServiceConnectionId)'
-
           #--------------------------------------------#
           # Postman - Install Newman
           # ToDo: Update the command and verify the working directory
-
           - task: CmdLine@2
             displayName: Install Newman
             inputs:
@@ -117,21 +101,6 @@ stages:
           #--------------------------------------------#
           # Selenium (UI) Test Suite - Archive the package
           # "ArchiveFiles@2" picks up the web package and archives it.
-
-          # FakeRestAPI - Archive
-          # ToDo: Complete the ArchiveFiles@2 task and publish step
-          - task: ArchiveFiles@2
-            displayName: "Archive FakeRestAPI"
-            inputs:
-              rootFolderOrFile: "$(System.DefaultWorkingDirectory)/automatedtesting/jmeter"
-              includeRootFolder: false
-              archiveType: "zip"
-              archiveFile: "$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-fakerestapi.zip"
-          - publish: $(Build.ArtifactStagingDirectory)/$(Build.BuildId)-fakerestapi.zip
-            displayName: "Upload Package"
-            artifact: drop-fakerestapi
-
-
           - task: ArchiveFiles@2
             displayName: "Archive UI Tests"
             inputs:
@@ -145,7 +114,18 @@ stages:
             artifact: drop-uitests
 
           #--------------------------------------------#
-          
+          # FakeRestAPI - Archive
+          # ToDo: Complete the ArchiveFiles@2 task and publish step
+          - task: ArchiveFiles@2
+            displayName: "Archive FakeRestAPI"
+            inputs:
+              rootFolderOrFile:
+              includeRootFolder: false
+              archiveType: "zip"
+              archiveFile: "$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-fakerestapi.zip"
+          - publish: $(Build.ArtifactStagingDirectory)/$(Build.BuildId)-fakerestapi.zip
+            displayName: "Upload Package"
+            artifact: drop-fakerestapi
 
           #--------------------------------------------#
           # JMeter (Performance) Test Suite - Archive
@@ -153,7 +133,7 @@ stages:
           - task: ArchiveFiles@2
             displayName: "Archive PerformanceTestSuite"
             inputs:
-              rootFolderOrFile: "$(System.DefaultWorkingDirectory)/automatedtesting/postman"
+              rootFolderOrFile:
               includeRootFolder: false
               archiveType: "zip"
               archiveFile: "$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-perftests.zip"
@@ -171,7 +151,9 @@ stages:
       # Deploy FakeRestAPI Web App
       # ToDo: Provide <environment name> you created in your DevOps project
       - deployment: FakeRestAPI
-        environment: "testvm" # ToDo
+        pool:
+          vmImage: "Ubuntu-20.04"
+        environment: "test"
         strategy:
           runOnce:
             deploy:
@@ -179,12 +161,12 @@ stages:
                 - task: AzureWebApp@1
                   displayName: "Deploy Azure Web App"
                   inputs:
-                    azureSubscription: "47647fef-8051-4883-95f2-26b9e16b97f9" # ToDo
-                    appName: "myApplication-AppService" # ToDo
+                    azureSubscription: "f9316684-7bdf-42f7-9039-496f6bd6e8ba" # ToDo
+                    appName: "app" # ToDo
                     appType: webApp
-                    package: $(Pipeline.Workspace)/drop-fakerestapi/$(Build.BuildId)-fakerestapi.zip # ToDo: Use the published zip artifact.
-                  #--------------------------------------------#
-                  # Run JMeter test suite against the App Service
+                    package: $(Pipeline.Workspace)/drop-fakerestapi/$(Build.BuildId)-fakerestapi.zip
+                #--------------------------------------------#
+                # Run JMeter test suite against the App Service
                 - task: CmdLine@2
                   inputs:
                     script: |
@@ -192,8 +174,8 @@ stages:
                       tar -xf apache-jmeter-5.2.1.tgz
                       unzip -o $(Build.BuildId)-perftests.zip
                       ./apache-jmeter-5.2.1/bin/jmeter -n -t PerformanceTestSuite.jmx -j jmeter.log -f
-                      cat jmeter.log                                                                           # ToDo: Write your commands
-                    workingDirectory: $(Pipeline.Workspace)/drop-perftests/$(Build.BuildId)-perftests.zip # ToDo: Use the artifact name from the task above
+                      cat jmeter.log                                                                           
+                    workingDirectory: $(Pipeline.Workspace)/drop-perftests/$(Build.BuildId)-perftests.zip 
 
       #--------------------------------------------#
       # Selenium | Functional UI Tests
@@ -201,9 +183,9 @@ stages:
       - deployment: VMDeploy
         displayName: Selenium Tests
         environment:
-          name: "testvm" # ToDo: Change/provide a name
+          name: linux-test
           resourceType: VirtualMachine
-          tags: selenium
+          tags: test
         strategy:
           runOnce:
             deploy:
@@ -223,21 +205,21 @@ stages:
                       sudo apt-get install -y chromium-browser
                       pip3 install selenium
                       cd ~/
-                      DIR=/home/azureuser/app
+                      DIR=/home/testuser/app
                       if [ ! -d "$DIR" ]; then
                           mkdir app
                       fi
-                      mv /home/azureuser/azagent/_work/1/drop-uitests/$(Build.BuildId)-uitests.zip app
+                      mv /home/testuser/azagent/_work/1/drop-uitests/$(Build.BuildId)-uitests.zip app
                       cd app
                       unzip -o $(Build.BuildId)-uitests.zip
-                      FILE=/home/azureuser/app/chromedriver_linux64.zip
+                      FILE=/home/testuser/app/chromedriver_linux64.zip
                       if [ ! -f "$FILE" ]; then
                           LATEST=$(wget -q -O - http://chromedriver.storage.googleapis.com/LATEST_RELEASE)
-                          wget https://storage.googleapis.com/chrome-for-testing-public/131.0.6778.204/linux64/chromedriver-linux64.zip
+                          wget http://chromedriver.storage.googleapis.com/$LATEST/chromedriver_linux64.zip
                           unzip -o chromedriver_linux64.zip
                           sudo ln -s $PWD/chromedriver /usr/local/bin/chromedriver
                       fi
                       export PATH=$PATH:/home/testuser/app
                       echo "Starting Selenium Tests"
                       python3 add_remove_from_cart.py >> selenium.log
-                      echo "Completed Selenium Tests. Check selenium.log for results."
+                      echo "Completed Selenium Tests. Check selenium.log for results."Ï
