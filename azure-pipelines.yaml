@@ -204,14 +204,14 @@ stages:
                       sudo apt-get install -y chromium-browser
                       pip3 install selenium
                       cd ~/
-                      DIR=/home/testuser/app
+                      DIR=/home/azureuser/app
                       if [ ! -d "$DIR" ]; then
                           mkdir app
                       fi
-                      mv /home/testuser/azagent/_work/1/drop-uitests/$(Build.BuildId)-uitests.zip app
+                      mv /home/azureuser/azagent/_work/1/drop-uitests/$(Build.BuildId)-uitests.zip app
                       cd app
                       unzip -o $(Build.BuildId)-uitests.zip
-                      FILE=/home/testuser/app/chromedriver_linux64.zip
+                      FILE=/home/azureuser/app/chromedriver_linux64.zip
                       if [ ! -f "$FILE" ]; then
                           LATEST=$(wget -q -O - http://chromedriver.storage.googleapis.com/LATEST_RELEASE)
                           wget http://chromedriver.storage.googleapis.com/$LATEST/chromedriver_linux64.zip
